@@ -37,8 +37,9 @@ export function isWin(gs: GameState): boolean {
   let checkDiagR = () => {
     // right diagonal
     for (let i = 0; i < N; i++) {
-      if (board[i][N - i] != turn) return false;
+      if (board[i][N - i-1] != turn) return false;
     }
+    return true;
   };
   return checkRow(moveR) || checkColumn(moveC) || checkDiagL() || checkDiagR();
 }
