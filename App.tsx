@@ -183,8 +183,8 @@ function AivAi(props: AivAiProps) {
       ) : (
         <h1>
           {isWin(gameState)
-            ? `Player ${(gameState.turn + 1) % 2} YOU WIN!`
-            : `Player ${gameState.turn}'s turn`}
+            ? `Ai ${(gameState.turn + 1) % 2} WINS!`
+            : `Ai ${gameState.turn}'s turn`}
         </h1>
       )}
       <Board mat={gameState.board} onChange={() => {}} />

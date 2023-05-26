@@ -29,6 +29,18 @@ body {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+.no-top {
+  border-top: none;
+}
+.no-bottom {
+  border-bottom: none;
+}
+.no-right {
+  border-right: none;
+}
+.no-left {
+  border-left: none;
+}
 
 .board-row:after {
   clear: both;
@@ -42,7 +54,7 @@ body {
   background: rgb(145, 92, 182);
   padding: 15px 40px;
   border-radius: 4px;
-  font-weight: normal;
+  font-weight: bolder;
   text-transform: uppercase;
   transition: all 0.2s ease-in-out;
 

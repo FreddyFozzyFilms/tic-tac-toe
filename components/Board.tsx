@@ -19,7 +19,9 @@ export default function Board(props: BoardProps) {
           {row.map((elem, eindex) => (
             <button
               key={eindex}
-              className="square"
+              className={`square ${rindex == 0 && 'no-top'} ${
+                eindex == 0 && 'no-left'
+              } no-bottom no-right`}
               onClick={() => onChange(rindex, eindex)}
             >
               {repr(elem)}
