@@ -95,11 +95,17 @@ function PvAi(props: PvAiProps) {
                 setGameState((gs) => {
                   let gs1 = updateGameState(gs, [r, e]);
                   if (!gs1) return gs; // no more changes if player move is invalid
-
-                  let gs2 = updateGameState(gs1, strategy(gs1));
-                  if (!gs2) return gs1; // no more changes if ai move is invalid
-                  return gs2;
+                  return gs1;
                 });
+                setTimeout(
+                  () =>
+                    setGameState((gs1) => {
+                      let gs2 = updateGameState(gs1, strategy(gs1));
+                      if (!gs2) return gs1; // no more changes if ai move is invalid
+                      return gs2;
+                    }),
+                  500
+                );
               }
         }
       />
