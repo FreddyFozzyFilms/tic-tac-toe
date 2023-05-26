@@ -113,7 +113,12 @@ function PvAi(props: PvAiProps) {
   );
 }
 
-function iterateWithDelay(array: any[], effect, delay: number): Promise<void> {
+function iterateWithDelay(
+  array: any[],
+  effect,
+  delay: number,
+  end
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     let index = 0;
 
@@ -125,7 +130,7 @@ function iterateWithDelay(array: any[], effect, delay: number): Promise<void> {
           next();
         }, delay);
       } else {
-        resolve(); // Resolve without any arguments
+        end(); // Resolve without any arguments
       }
     }
 
@@ -148,6 +153,8 @@ function AivAi(props: AivAiProps) {
     lastMove: [-1, -1],
     turn: 0,
   });
+
+  const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
 
   // so entire game state resets everytime component remounts
   React.useEffect(() => {
@@ -182,17 +189,24 @@ function AivAi(props: AivAiProps) {
       )}
       <Board mat={gameState.board} onChange={() => {}} />
       <button
-        onClick={() => {
-          iterateWithDelay(
-            runGame({
-              board: Array(N).fill(Array(N).fill(-1)),
-              lastMove: [-1, -1],
-              turn: 0,
-            }),
-            setGameState,
-            500
-          );
-        }}
+        className="button glow-button"
+        onClick={
+          isPlaying
+            ? () => {}
+            : () => {
+                setIsPlaying(true);
+                iterateWithDelay(
+                  runGame({
+                    board: Array(N).fill(Array(N).fill(-1)),
+                    lastMove: [-1, -1],
+                    turn: 0,
+                  }),
+                  setGameState,
+                  500,
+                  () => setIsPlaying(false)
+                );
+              }
+        }
       >
         Play Game
       </button>
@@ -215,7 +229,10 @@ export default function App() {
   }
   return (
     <div className="app">
-      <button onClick={() => setMode((prev) => (prev + 1) % 3)}>
+      <button
+        className="button glow-button"
+        onClick={() => setMode((prev) => (prev + 1) % 3)}
+      >
         {['P v P', 'P v Ai', 'Ai v Ai'][mode]}
       </button>
       {
