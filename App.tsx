@@ -113,6 +113,26 @@ function PvAi(props: PvAiProps) {
   );
 }
 
+function iterateWithDelay(array: any[], effect, delay: number): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    let index = 0;
+
+    function next() {
+      if (index < array.length) {
+        setTimeout(() => {
+          effect(array[index]);
+          index++;
+          next();
+        }, delay);
+      } else {
+        resolve(); // Resolve without any arguments
+      }
+    }
+
+    next();
+  });
+}
+
 interface AivAiProps {
   N: number;
   strategys: [
@@ -138,6 +158,17 @@ function AivAi(props: AivAiProps) {
     });
   }, [N]);
 
+  function runGame(gs: GameState): GameState[] {
+    let gameSeq: GameState[] = [];
+    let temp = gs;
+    while (temp) {
+      temp = updateGameState(temp, strategys[temp.turn](temp));
+      gameSeq.push(temp);
+    }
+    gameSeq.pop();
+    return gameSeq;
+  }
+
   return (
     <div>
       {isFull(gameState.board) && !isWin(gameState) ? (
@@ -152,10 +183,14 @@ function AivAi(props: AivAiProps) {
       <Board mat={gameState.board} onChange={() => {}} />
       <button
         onClick={() => {
-          setGameState((gs) =>
-            updateGameState(gs, strategys[gs.turn](gs))
-              ? updateGameState(gs, strategys[gs.turn](gs))
-              : gs
+          iterateWithDelay(
+            runGame({
+              board: Array(N).fill(Array(N).fill(-1)),
+              lastMove: [-1, -1],
+              turn: 0,
+            }),
+            setGameState,
+            500
           );
         }}
       >
