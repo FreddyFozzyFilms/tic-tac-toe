@@ -23,3 +23,19 @@ p {
   content: '';
   display: table;
 }
+
+button {
+  width: 6rem;
+  height: 2rem;
+}
+
+.game-holder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

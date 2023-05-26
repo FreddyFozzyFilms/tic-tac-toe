@@ -27,7 +27,7 @@ function PvP(props: PvPProps) {
   }, [N]);
 
   return (
-    <div>
+    <div className="game-holder">
       {isFull(gameState.board) && !isWin(gameState) ? (
         <h1>Tie</h1>
       ) : (
@@ -76,7 +76,7 @@ function PvAi(props: PvAiProps) {
   }, [N]);
 
   return (
-    <div>
+    <div className="game-holder">
       {isFull(gameState.board) && !isWin(gameState) ? (
         <h1>Tie</h1>
       ) : (
@@ -170,7 +170,7 @@ function AivAi(props: AivAiProps) {
   }
 
   return (
-    <div>
+    <div className="game-holder">
       {isFull(gameState.board) && !isWin(gameState) ? (
         <h1>Tie</h1>
       ) : (
@@ -194,7 +194,7 @@ function AivAi(props: AivAiProps) {
           );
         }}
       >
-        Next Move
+        Play Game
       </button>
     </div>
   );
@@ -214,7 +214,7 @@ export default function App() {
     }
   }
   return (
-    <div>
+    <div className="app">
       <button onClick={() => setMode((prev) => (prev + 1) % 3)}>
         {['P v P', 'P v Ai', 'Ai v Ai'][mode]}
       </button>
