@@ -52,16 +52,20 @@ export function isFull(board: number[][]): boolean {
   }
   return true;
 }
+
 export function updateGameState(
   gs: GameState,
   move: [number, number]
-): GameState {
-  let newTurn = gs.turn;
+): GameState | null {
+  // return null if game has already reached a win condition
+  if (isWin(gs)) return null;
+  // return null if move is invalid
+  if (gs.board[move[0]][move[1]] !== -1) return null;
+
   let newBoard = gs.board.map((row, rindex) =>
     row.map((elem, eindex) => {
       if (eindex != move[1] || rindex != move[0]) return elem;
       if (elem == -1) {
-        newTurn = (gs.turn + 1) % 2; // only update turn if valid move was made
         return gs.turn;
       }
       return elem;
@@ -72,6 +76,6 @@ export function updateGameState(
   return {
     board: newBoard,
     lastMove: move, // move made to get to the current boad state
-    turn: newTurn, // 0 player O, 1 player X
+    turn: (gs.turn + 1) % 2, // 0 player O, 1 player X
   };
 }
